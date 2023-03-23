@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Sveltekit
-	import { entryData } from '$src/stores/store';
+	import { entryData, saveEditedImage } from '$src/stores/store';
 	import { enhance } from '$app/forms';
 
 	import { PUBLIC_SITENAME } from '$env/static/public';
@@ -75,32 +75,43 @@
 	let paging = { page: 1, entryLength: 10, totalCount: 0, lengthList: [10, 25, 50, 100, 500] };
 	let totalPages = 0;
 	let deleteMap: any = {};
-	let refresh = async (collection: any) => {
-		let entryList = [];
+	let refresh: (collection: any) => Promise<any>;
 
-		({ entryList, totalCount: paging.totalCount } = await axios
-			.get(`/api/${collection.name}?page=${paging.page}&length=${paging.entryLength}`)
-			.then((data) => data.data));
-		totalPages = Math.ceil(paging.totalCount / paging.entryLength);
-		deleteMap = {};
+	// let refresh = async (collection: any) => {
+	// 	let entryList = [];
 
-		return { entryList, totalPages, deleteMap };
-	};
+	// 	({ entryList, totalCount: paging.totalCount } = await axios
+	// 		.get(`/api/${collection.name}?page=${paging.page}&length=${paging.entryLength}`)
+	// 		.then((data) => data.data));
+	// 	totalPages = Math.ceil(paging.totalCount / paging.entryLength);
+	// 	deleteMap = {};
+
+	// 	return { entryList, totalPages, deleteMap };
+	// };
 
 	async function submit() {
-		await saveFormData(collection);
+		//console.log(collection, 'collection');
+		if (collection.name === 'Images') {
+			saveEditedImage.set(true);
+		} else {
+			await saveFormData(collection);
+		}
+
 		const { deleteMap, entryList, totalPages } = await refresh(collection);
 		entryListTableStore.set({
 			deleteMap,
 			entryList,
 			totalPages
 		});
+
+		// refresh(collection);
 		$showFieldsStore.showForm = false;
 		$entryData = undefined;
+
 		const t: ToastSettings = {
 			message: $LL.SBL_Save_message(),
 			// Optional: Presets for primary | secondary | tertiary | warning
-			//preset: 'success',
+			preset: 'success',
 			// Optional: The auto-hide settings
 			autohide: true,
 			timeout: 3000

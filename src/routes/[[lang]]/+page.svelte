@@ -1,13 +1,12 @@
 <script lang="ts">
 	import collections, { categories } from '$src/collections';
 	import EntryList from '$src/components/EntryList.svelte';
-	import Form from '$src/components/Form.svelte';
-	import widgets from '$src/components/widgets';
+	// import Form from '$src/components/Form.svelte';
+	// import widgets from '$src/components/widgets';
 	import showFieldsStore from '$src/lib/stores/fieldStore';
 	import { shape_fields } from '$src/lib/utils/utils_svelte';
 	import { onMount } from 'svelte';
 
-	let toggleSideBar = true;
 	let deleteMode: boolean;
 
 	let collection = collections[0];

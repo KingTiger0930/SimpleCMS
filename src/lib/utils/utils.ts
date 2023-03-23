@@ -65,7 +65,7 @@ export function parse(obj: any) {
 			} else {
 				obj[key] = JSON.parse(obj[key]);
 			}
-		} catch (e) { }
+		} catch (e) {}
 
 		if (typeof obj[key] != 'string') {
 			parse(obj[key]);
@@ -106,9 +106,11 @@ export function format(
 	let html = '';
 	for (const item of value) {
 		const htmlTag = item.newLine ? 'p' : 'span';
-		html += ` <${htmlTag} style=color:${item.textColor
-			} class=dark:text-white text-black> <span class=dark:text-white text-black style=color:${item.labelColor
-			}> ${item.label ? item.label + ':' : ''} </span> ${item.text}</${htmlTag}>`;
+		html += ` <${htmlTag} style=color:${
+			item.textColor
+		} class=dark:text-white text-black> <span class=dark:text-white text-black style=color:${
+			item.labelColor
+		}> ${item.label ? item.label + ':' : ''} </span> ${item.text}</${htmlTag}>`;
 	}
 	return html;
 }

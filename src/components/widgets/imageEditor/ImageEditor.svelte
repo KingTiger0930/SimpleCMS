@@ -6,7 +6,7 @@
 	import { saveEditedImage } from '$src/stores/store';
 	import { saveData } from '$src/lib/utils/utils_svelte';
 
-	export let field = { title: '', path: '', image: '' };
+	export let field = { db_fieldName: '', path: '', image: '' };
 	export let value: any;
 	export let scale: any;
 	export let collection: any;
@@ -98,7 +98,7 @@
 
 <input
 	use:setFile
-	name={field.title}
+	name={field.db_fieldName}
 	class="block w-fulxl text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 	type="file"
 />

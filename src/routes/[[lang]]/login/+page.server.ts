@@ -1,6 +1,5 @@
-import { fail, type Actions } from '@sveltejs/kit';
-import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 import { get } from 'svelte/store';
 
 // Nodemailer
@@ -28,6 +27,7 @@ const checkUserExistsInDb = async () => {
 	}
 };
 
+// If user exist,  redirect authenticated user to the profile page
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.validate();
 	if (session) throw redirect(302, '/');
@@ -121,6 +121,7 @@ export const actions: Actions = {
 		const email = form.get('email');
 		const password = form.get('password');
 
+	  //check for empty values
 		if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
 			return fail(400, {
 				error: true,
